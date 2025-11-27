@@ -112,12 +112,6 @@ const DunkinInvoicePage = () => {
       setIsDownloading(false);
     }
   };
-    } catch (error) {
-      console.error('Error generating PDF:', error);
-    } finally {
-      setIsDownloading(false);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 py-8 px-4">
