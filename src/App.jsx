@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { navItems } from "./nav-items";
 import TemplatePage from "./pages/TemplatePage";
 import ReceiptPage from "./pages/ReceiptPage";
+import DunkinInvoicePage from "./pages/DunkinInvoicePage";
 import Index from "./pages/Index";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/template" element={<TemplatePage />} />
           <Route path="/receipt" element={<ReceiptPage />} />
+          <Route path="/dunkin" element={<DunkinInvoicePage />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
