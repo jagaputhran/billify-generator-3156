@@ -80,14 +80,30 @@ const DunkinInvoicePage = () => {
     setIsDownloading(true);
     try {
       const element = invoiceRef.current;
+      
+      // Store original styles
+      const originalWidth = element.style.width;
+      const originalMinWidth = element.style.minWidth;
+      
+      // Set fixed width for consistent PDF generation across all devices
+      element.style.width = '800px';
+      element.style.minWidth = '800px';
+      
+      // Wait for layout to settle
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
       const canvas = await html2canvas(element, {
         scale: 3,
         useCORS: true,
         logging: false,
         backgroundColor: '#ffffff',
-        width: element.scrollWidth,
+        width: 800,
         height: element.scrollHeight,
       });
+
+      // Restore original styles
+      element.style.width = originalWidth;
+      element.style.minWidth = originalMinWidth;
 
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4');
