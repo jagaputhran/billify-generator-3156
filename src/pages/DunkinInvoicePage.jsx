@@ -81,12 +81,12 @@ const DunkinInvoicePage = () => {
     try {
       const element = invoiceRef.current;
       const canvas = await html2canvas(element, {
-        scale: 2,
+        scale: 3,
         useCORS: true,
         logging: false,
         backgroundColor: '#ffffff',
-        windowWidth: element.scrollWidth,
-        windowHeight: element.scrollHeight,
+        width: element.scrollWidth,
+        height: element.scrollHeight,
       });
 
       const imgData = canvas.toDataURL('image/png');
@@ -95,16 +95,28 @@ const DunkinInvoicePage = () => {
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
 
-      // Scale image to fit within A4 while preserving aspect ratio
-      const ratio = Math.min(pdfWidth / canvas.width, pdfHeight / canvas.height);
-      const imgWidth = canvas.width * ratio;
-      const imgHeight = canvas.height * ratio;
+      // Convert canvas pixels to mm (assuming 96 DPI)
+      const imgWidthMM = (canvas.width * 25.4) / 96 / 3; // Divide by scale factor
+      const imgHeightMM = (canvas.height * 25.4) / 96 / 3;
+
+      // Scale to fit within A4 with minimal margins
+      const margin = 5;
+      const availableWidth = pdfWidth - (2 * margin);
+      const availableHeight = pdfHeight - (2 * margin);
+      
+      const ratio = Math.min(
+        availableWidth / imgWidthMM,
+        availableHeight / imgHeightMM
+      );
+
+      const finalWidth = imgWidthMM * ratio;
+      const finalHeight = imgHeightMM * ratio;
 
       // Center the image on the page
-      const x = (pdfWidth - imgWidth) / 2;
-      const y = (pdfHeight - imgHeight) / 2;
+      const x = (pdfWidth - finalWidth) / 2;
+      const y = margin;
 
-      pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
+      pdf.addImage(imgData, 'PNG', x, y, finalWidth, finalHeight);
       pdf.save(`${formData.invoiceNumber}.pdf`);
     } catch (error) {
       console.error('Error generating PDF:', error);
