@@ -1,6 +1,7 @@
 import React from 'react';
 import BaseTemplate from './BaseTemplate';
 import { formatCurrency } from '../../utils/formatCurrency';
+import dunkinLogo from '../../assets/dunkin-logo.png';
 
 const Template8 = ({ data }) => {
   const { billTo, shipTo, invoice, yourCompany, items, taxPercentage, taxAmount, subTotal, grandTotal, notes, selectedCurrency } = data;
@@ -91,9 +92,12 @@ const Template8 = ({ data }) => {
         )}
         <footer className="mt-auto">
           <div className="flex justify-between items-center">
-            <h1 className="text-4xl font-bold" style={{ color: "#3C8BF6" }}>
-              Invoice
-            </h1>
+            <div>
+              <img src={dunkinLogo} alt="Dunkin Delicacies Logo" className="h-16 w-auto mb-2" />
+              <h1 className="text-4xl font-bold" style={{ color: "#3C8BF6" }}>
+                Invoice
+              </h1>
+            </div>
             <div className="text-right">
               <h2 className="text-xl font-bold">{yourCompany.name}</h2>
               <p>{yourCompany.address}</p>

@@ -1,6 +1,7 @@
 import React from 'react';
 import BaseTemplate from './BaseTemplate';
 import { formatCurrency } from '../../utils/formatCurrency';
+import dunkinLogo from '../../assets/dunkin-logo.png';
 
 const Template2 = ({ data }) => {
   const { billTo, shipTo, invoice, yourCompany, items, taxPercentage, taxAmount, subTotal, grandTotal, notes, selectedCurrency } = data;
@@ -10,6 +11,7 @@ const Template2 = ({ data }) => {
       <div className="bg-white p-8 max-w-4xl mx-auto">
         <div className="flex justify-between mb-4 border-b-2 pb-4">
           <div>
+            <img src={dunkinLogo} alt="Dunkin Delicacies Logo" className="h-16 w-auto mb-2" />
             <h1 className="text-2xl font-bold text-cyan-700">
               {yourCompany.name}
             </h1>
