@@ -2,6 +2,7 @@ import React from 'react';
 import { format } from 'date-fns';
 import BaseTemplate from './BaseTemplate';
 import { formatCurrency } from '../../utils/formatCurrency';
+import dunkinLogo from '../../assets/dunkin-logo.png';
 
 const Template5 = ({ data = {} }) => {
   const { billTo = {}, shipTo = {}, invoice = {}, yourCompany = {}, items = [], taxPercentage = 0, taxAmount = 0, subTotal = 0, grandTotal = 0, notes = '', selectedCurrency } = data;
@@ -12,6 +13,7 @@ const Template5 = ({ data = {} }) => {
         <div className="p-8">
           <div className="flex justify-between items-start">
             <div>
+              <img src={dunkinLogo} alt="Dunkin Delicacies Logo" className="h-16 w-auto mb-2" />
               <h1 className="text-4xl font-bold text-green-600">Invoice</h1>
             </div>
             <div className="text-right">

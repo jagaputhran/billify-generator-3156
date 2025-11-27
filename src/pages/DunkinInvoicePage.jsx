@@ -84,14 +84,28 @@ const DunkinInvoicePage = () => {
         useCORS: true,
         logging: false,
         backgroundColor: '#ffffff',
+        windowWidth: invoiceRef.current.scrollWidth,
+        windowHeight: invoiceRef.current.scrollHeight,
       });
 
       const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = 210; // A4 width in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
       
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pdf.internal.pageSize.getHeight();
+
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pdf.internal.pageSize.getHeight();
+      }
+      
       pdf.save(`${formData.invoiceNumber}.pdf`);
     } catch (error) {
       console.error('Error generating PDF:', error);
@@ -246,7 +260,7 @@ const DunkinInvoicePage = () => {
               <div className="flex justify-between items-start mb-8 pb-4 border-b-2 border-pink-200">
                 <div>
                   <img src={dunkinLogo} alt="Dunkin Delicacies Logo" className="h-16 w-auto mb-2" />
-                  <h1 className="text-2xl font-bold text-pink-600">Dunkin Delicacies — By AISH</h1>
+                  <h1 className="text-2xl font-bold text-gray-800">Dunkin Delicacies — By AISH</h1>
                 </div>
                 <div className="text-right">
                   <h2 className="text-3xl font-bold text-gray-800">INVOICE</h2>
